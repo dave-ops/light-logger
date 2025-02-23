@@ -9,21 +9,23 @@ npm install light-logger
 ```
 
 ## Usage
+
+**Set LOG_LEVEL to 1 (INFO)**
+falls back to env === 'production' ? 3 : 0
 ```
-const Logger = require('light-logger');
+export LOG_LEVEL=1
+node examples\index.js
+```
 
-const logger = new Logger(); // Default level is DEBUG
-
-// Log messages at different levels
-logger.debug('Debug message');
-logger.info('Info message');
-logger.warn('Warning message');
-logger.error('Error message');
-
-// Set specific log level
-const errorOnlyLogger = new Logger(Logger.Levels.ERROR);
-errorOnlyLogger.debug('This won\'t show');
-errorOnlyLogger.error('This will show');
+```
+const Logger = require("../index");
+const logger = new Logger();
+console.log(logger.minimumLevel); // 1
+logger.debug("Debug message");    // Won't log (0 < 1)
+logger.info("Info message");      // Will log (1 >= 1)
+logger.warn("Warning message");   // Will log (2 >= 1)
+logger.error("Error message");    // Will log (3 >= 1)
+logger.critical("Critical");      // Will log (4 >= 1)
 ```
 
 ## Publish
