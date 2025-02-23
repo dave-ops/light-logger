@@ -1,5 +1,4 @@
-const Logger = require("../index");
-const logger = new Logger();
+const { log: logger } = require("../index");
 
 logger.level = logger.Levels.DEBUG;
 
