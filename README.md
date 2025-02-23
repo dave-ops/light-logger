@@ -42,7 +42,9 @@ logger.warn("Warning message");   // Will log (2 >= 1)
 logger.error("Error message");    // Will log (3 >= 1)
 logger.critical("Critical");      // Will log (4 >= 1)
 ```
-![alt text](examples\image.png)
+
+![image](https://github.com/user-attachments/assets/ecf82802-114f-438f-8a7a-97d5be0191ac)
+
 
 ## Publish
 ```
