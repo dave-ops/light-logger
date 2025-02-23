@@ -1,6 +1,11 @@
 // logLevel.js
 const LogConfig = require('./LogConfig');
 
+const isObject = (value) => {
+    return value !== null && typeof value === 'object' && 
+           Object.getPrototypeOf(value) === Object.prototype;
+};
+
 class LogLevel {
     constructor(name, priority, color, abbreviation) {
         this.name = name;
@@ -10,6 +15,10 @@ class LogLevel {
     }
 
     formatMessage(message) {
+        if (isObject(message)) {
+            return JSON.stringify(message, null, 4);
+        }
+
         return `${LogConfig.Colors.WHITE}[${this.color}${this.abbreviation}` +
                `${LogConfig.Colors.WHITE}]${LogConfig.Colors.RESET} ` +
                `${LogConfig.Colors.LIGHT_GREY}${message}${LogConfig.Colors.RESET}`;

@@ -17,3 +17,12 @@ logger.error("Error message");
 
 logger.timestamp();
 logger.critical("System failure detected");
+
+const obj = {
+    "a": 1,
+    "b": {
+        "c": "x",
+    }
+};
+
+logger.debug(obj);
