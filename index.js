@@ -128,7 +128,11 @@ class Logger {
         };
     }
 
-    get LEVELS() {
+    static get Levels() {
+        return LogConfig.Levels;
+    }
+
+    get Levels() {
         return LogConfig.Levels;
     }
 
