@@ -1,6 +1,6 @@
 {
     "name": "lite-bright",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A lightweight, colorful console logger",
     "main": "index.js",
     "scripts": {
@@ -12,14 +12,14 @@
         "console",
         "debug"
     ],
-    "author": "Your Name",
+    "author": "dave-ops",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/yourusername/light-logger.git"
+        "url": "git+https://github.com/dave-ops/light-logger.git"
     },
     "bugs": {
-        "url": "https://github.com/yourusername/light-logger/issues"
+        "url": "https://github.com/dave-ops/light-logger/issues"
     },
-    "homepage": "https://github.com/yourusername/light-logger#readme"
+    "homepage": "https://github.com/dave-ops/light-logger#readme"
 }
