@@ -42,14 +42,12 @@ node examples\index.js
 ```
 
 ```
-const Logger = require("../index");
-const logger = new Logger();
-console.log(logger.minimumLevel); // 1
-logger.debug("Debug message");    // Won't log (0 < 1)
-logger.info("Info message");      // Will log (1 >= 1)
-logger.warn("Warning message");   // Will log (2 >= 1)
-logger.error("Error message");    // Will log (3 >= 1)
-logger.critical("Critical");      // Will log (4 >= 1)
+const { log } = require("../index");
+log.debug("Debug message");    // Won't log (0 < 1)
+log.info("Info message");      // Will log (1 >= 1)
+log.warn("Warning message");   // Will log (2 >= 1)
+log.error("Error message");    // Will log (3 >= 1)
+log.critical("Critical");      // Will log (4 >= 1)
 ```
 ![alt text](https://github.com/dave-ops/light-bright/blob/main/examples/image.png)
 

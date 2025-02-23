@@ -1,21 +1,12 @@
-const { log: logger } = require("../index");
+const { log } = require("../index");
 
-logger.level = logger.Levels.DEBUG;
 
-logger.timestamp();
-logger.debug("Debug message");
-
-logger.timestamp();
-logger.info("Info message");
-
-logger.timestamp();
-logger.warn("Warning message");
-
-logger.timestamp();
-logger.error("Error message");
-
-logger.timestamp();
-logger.critical("System failure detected");
+log.timestamp();
+log.debug("Debug message");
+log.info("Info message");
+log.warn("Warning message");
+log.error("Error message");
+log.critical("System failure detected");
 
 const obj = {
     "a": 1,
@@ -24,4 +15,4 @@ const obj = {
     }
 };
 
-logger.debug(obj);
+log.debug(obj);

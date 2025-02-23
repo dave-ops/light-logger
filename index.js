@@ -1,3 +1,4 @@
 // index.js
 const Logger = require('./Logger');
-module.exports = Logger;
+const log = new Logger();
+module.exports = { Logger, log };

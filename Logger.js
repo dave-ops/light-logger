@@ -105,4 +105,3 @@ class Logger {
 }
 
 module.exports = Logger;
-module.exports.log = new Logger();
