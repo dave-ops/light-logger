@@ -1,8 +1,10 @@
 const Logger = require("../index");
 const logger = new Logger();
 
-logger.env
-logger.minimumLevel
+console.log(logger.env)
+console.log(logger.minimumLevel)
+logger.level = logger.LEVELS.ERROR;
+console.log(logger.level)
 
 logger.timestamp();
 logger.debug("Debug message");

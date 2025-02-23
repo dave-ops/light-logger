@@ -116,6 +116,10 @@ class Logger {
         };
     }
 
+    get LEVELS() {
+        return LogConfig.Levels;
+    }
+
     get env() {
         return this._env;
     }
@@ -125,7 +129,11 @@ class Logger {
     }
 
     get level() {
-        return this._minimumLevel
+        return this._minimumLevel;
+    }
+
+    set level(level) {
+        this._minimumLevel = level;
     }
 
     toLevel(levelNumber) {
