@@ -1,4 +1,4 @@
-// Base configuration classes
+// Base configuration classes with all constants
 class LogConfig {
     static Levels = {
         DEBUG: 0,
@@ -8,12 +8,19 @@ class LogConfig {
     };
 
     static Colors = {
-        Reset: '\x1b[0m',
-        White: '\x1b[37m',
-        Blue: '\x1b[34m',
-        Yellow: '\x1b[33m',
-        Orange: '\x1b[38;5;208m',
-        Red: '\x1b[31m'
+        RESET: '\x1b[0m',
+        WHITE: '\x1b[37m',
+        BLUE: '\x1b[34m',
+        YELLOW: '\x1b[33m',
+        ORANGE: '\x1b[38;5;208m',
+        RED: '\x1b[31m'
+    };
+
+    static LevelConfig = {
+        DEBUG: { NAME: 'DEBUG', ABBREVIATION: 'DBG', COLOR: LogConfig.Colors.BLUE },
+        INFO: { NAME: 'INFO', ABBREVIATION: 'INF', COLOR: LogConfig.Colors.YELLOW },
+        WARN: { NAME: 'WARN', ABBREVIATION: 'WRN', COLOR: LogConfig.Colors.ORANGE },
+        ERROR: { NAME: 'ERROR', ABBREVIATION: 'ERR', COLOR: LogConfig.Colors.RED }
     };
 }
 
@@ -27,7 +34,7 @@ class LogLevel {
     }
 
     formatMessage(message) {
-        return `${LogConfig.Colors.White}[${this.color}${this.abbreviation}${LogConfig.Colors.White}]${LogConfig.Colors.Reset} ${LogConfig.Colors.White}${message}${LogConfig.Colors.Reset}`;
+        return `${LogConfig.Colors.WHITE}[${this.color}${this.abbreviation}${LogConfig.Colors.WHITE}]${LogConfig.Colors.RESET} ${LogConfig.Colors.WHITE}${message}${LogConfig.Colors.RESET}`;
     }
 
     shouldLog(minimumPriority) {
@@ -35,28 +42,48 @@ class LogLevel {
     }
 }
 
-// Concrete log level implementations
+// Concrete log level implementations using constants
 class DebugLevel extends LogLevel {
     constructor() {
-        super('DEBUG', LogConfig.Levels.DEBUG, LogConfig.Colors.Blue, 'DBG');
+        super(
+            LogConfig.LevelConfig.DEBUG.NAME,
+            LogConfig.Levels.DEBUG,
+            LogConfig.LevelConfig.DEBUG.COLOR,
+            LogConfig.LevelConfig.DEBUG.ABBREVIATION
+        );
     }
 }
 
 class InfoLevel extends LogLevel {
     constructor() {
-        super('INFO', LogConfig.Levels.INFO, LogConfig.Colors.Yellow, 'INF');
+        super(
+            LogConfig.LevelConfig.INFO.NAME,
+            LogConfig.Levels.INFO,
+            LogConfig.LevelConfig.INFO.COLOR,
+            LogConfig.LevelConfig.INFO.ABBREVIATION
+        );
     }
 }
 
 class WarnLevel extends LogLevel {
     constructor() {
-        super('WARN', LogConfig.Levels.WARN, LogConfig.Colors.Orange, 'WRN');
+        super(
+            LogConfig.LevelConfig.WARN.NAME,
+            LogConfig.Levels.WARN,
+            LogConfig.LevelConfig.WARN.COLOR,
+            LogConfig.LevelConfig.WARN.ABBREVIATION
+        );
     }
 }
 
 class ErrorLevel extends LogLevel {
     constructor() {
-        super('ERROR', LogConfig.Levels.ERROR, LogConfig.Colors.Red, 'ERR');
+        super(
+            LogConfig.LevelConfig.ERROR.NAME,
+            LogConfig.Levels.ERROR,
+            LogConfig.LevelConfig.ERROR.COLOR,
+            LogConfig.LevelConfig.ERROR.ABBREVIATION
+        );
     }
 }
 
