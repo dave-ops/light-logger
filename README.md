@@ -8,7 +8,7 @@ A lightweight, colorful console logging utility for Node.js.
 npm install light-logger
 ```
 
-## usage
+## Usage
 ```
 const Logger = require('light-logger');
 
