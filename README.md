@@ -1,4 +1,4 @@
-# Light-Bright Logger
+# Lite-Bright Logger
 A lightweight, colorful ANSI console logging utility for Node.js.
 
 ## Features
