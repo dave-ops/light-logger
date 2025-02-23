@@ -3,7 +3,7 @@ const logger = new Logger();
 
 console.log(logger.env)
 console.log(logger.minimumLevel)
-logger.level = logger.LEVELS.ERROR;
+logger.level = logger.Levels.ERROR;
 console.log(logger.level)
 
 logger.timestamp();

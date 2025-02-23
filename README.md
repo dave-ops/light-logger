@@ -2,6 +2,21 @@
 
 A lightweight, colorful ANSI console logging utility for Node.js.
 
+## Folder Structure
+```
+light-bright/
+├── levels/
+│   ├── debugLevel.js
+│   ├── infoLevel.js
+│   ├── warnLevel.js
+│   ├── errorLevel.js
+│   └── criticalLevel.js
+├── logConfig.js
+├── logLevel.js
+├── logger.js
+└── index.js
+```
+
 ## Installation
 
 ```bash
