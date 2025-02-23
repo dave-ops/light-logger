@@ -1,6 +1,6 @@
 {
     "name": "lite-bright",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A lightweight, colorful console logger",
     "main": "index.js",
     "scripts": {
@@ -10,7 +10,8 @@
         "logger",
         "logging",
         "console",
-        "debug"
+        "debug",
+        "ansi"
     ],
     "author": "dave-ops",
     "license": "MIT",

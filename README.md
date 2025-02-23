@@ -1,6 +1,6 @@
 # Light Logger
 
-A lightweight, colorful console logging utility for Node.js.
+A lightweight, colorful ANSI console logging utility for Node.js.
 
 ## Installation
 
@@ -24,4 +24,9 @@ logger.error('Error message');
 const errorOnlyLogger = new Logger(Logger.Levels.ERROR);
 errorOnlyLogger.debug('This won\'t show');
 errorOnlyLogger.error('This will show');
+```
+
+## Publish
+```
+npm publish --access public
 ```
