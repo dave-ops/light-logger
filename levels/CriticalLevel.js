@@ -1,6 +1,6 @@
 // levels/criticalLevel.js
-const LogLevel = require('../logLevel');
-const LogConfig = require('../logConfig');
+const LogLevel = require('../LogLevel');
+const LogConfig = require('../LogConfig');
 
 class CriticalLevel extends LogLevel {
     constructor() {

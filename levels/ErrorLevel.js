@@ -1,6 +1,6 @@
 // levels/errorLevel.js
-const LogLevel = require('../logLevel');
-const LogConfig = require('../logConfig');
+const LogLevel = require('../LogLevel');
+const LogConfig = require('../LogConfig');
 
 class ErrorLevel extends LogLevel {
     constructor() {

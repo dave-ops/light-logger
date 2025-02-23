@@ -17,8 +17,10 @@ class LogConfig {
         RED: '\x1b[31m',
         MAGENTA: '\x1b[35m',
         LIGHT_GREY: '\x1b[38;5;252m',
-        GREY: '\x1b[38;5;244m',    // Medium grey (approx. #808080)
-        DARK_GREY: '\x1b[38;5;240m' // Dark grey (approx. #585858)
+        GREY: '\x1b[38;5;244m',
+        DARK_GREY: '\x1b[38;5;240m',
+        BLINKING: '\x1b[5m',         // Slow blink modifier
+        BLINKING_RED: '\x1b[31;5m'   // Red text with slow blink
     };
 
     static LevelConfig = {
