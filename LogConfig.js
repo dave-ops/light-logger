@@ -15,7 +15,10 @@ class LogConfig {
         YELLOW: '\x1b[33m',
         ORANGE: '\x1b[38;5;208m',
         RED: '\x1b[31m',
-        MAGENTA: '\x1b[35m'
+        MAGENTA: '\x1b[35m',
+        LIGHT_GREY: '\x1b[38;5;252m',
+        GREY: '\x1b[38;5;244m',    // Medium grey (approx. #808080)
+        DARK_GREY: '\x1b[38;5;240m' // Dark grey (approx. #585858)
     };
 
     static LevelConfig = {
