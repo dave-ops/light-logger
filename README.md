@@ -1,11 +1,11 @@
-# Light Logger
+# Light-Bright Logger
 
 A lightweight, colorful ANSI console logging utility for Node.js.
 
 ## Installation
 
 ```bash
-npm install light-logger
+npm install lite-bright
 ```
 
 ## Usage
