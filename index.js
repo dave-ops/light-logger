@@ -5,7 +5,7 @@ class LogConfig {
         INFO: 1,
         WARN: 2,
         ERROR: 3,
-        CRITICAL: 4  // Added CRITICAL level
+        CRITICAL: 4
     };
 
     static Colors = {
@@ -15,7 +15,7 @@ class LogConfig {
         YELLOW: '\x1b[33m',
         ORANGE: '\x1b[38;5;208m',
         RED: '\x1b[31m',
-        MAGENTA: '\x1b[35m'  // Added for CRITICAL (you can choose a different color)
+        MAGENTA: '\x1b[35m'
     };
 
     static LevelConfig = {
@@ -27,7 +27,7 @@ class LogConfig {
     };
 }
 
-// Abstract LogLevel class (unchanged)
+// Abstract LogLevel class
 class LogLevel {
     constructor(name, priority, color, abbreviation) {
         this.name = name;
@@ -43,9 +43,10 @@ class LogLevel {
     shouldLog(minimumPriority) {
         return this.priority >= minimumPriority;
     }
+
 }
 
-// Existing concrete log level implementations (unchanged)
+// concrete log level implementations
 class DebugLevel extends LogLevel {
     constructor() {
         super(
@@ -90,7 +91,6 @@ class ErrorLevel extends LogLevel {
     }
 }
 
-// New CRITICAL level implementation
 class CriticalLevel extends LogLevel {
     constructor() {
         super(
@@ -102,23 +102,58 @@ class CriticalLevel extends LogLevel {
     }
 }
 
-// Logger class with CRITICAL level support
+// Logger class
 class Logger {
-    constructor(minimumLevel = LogConfig.Levels.DEBUG) {
-        this.minimumLevel = minimumLevel;
+    constructor(env = 'development') {
+        this._env = env;
+        this._minimumLevel = env === 'production' ? LogConfig.Levels.ERROR : LogConfig.Levels.DEBUG;
         this.levels = {
             debug: new DebugLevel(),
             info: new InfoLevel(),
             warn: new WarnLevel(),
             error: new ErrorLevel(),
-            critical: new CriticalLevel()  // Added critical level
+            critical: new CriticalLevel()
         };
     }
 
+    get env() {
+        return this._env;
+    }
+
+    get minimumLevel() {
+        return this._minimumLevel;
+    }
+
+    get level() {
+        return this._minimumLevel
+    }
+
+    toLevel(levelNumber) {
+        switch (levelNumber) {
+            case LogConfig.Levels.DEBUG:
+                return this.levels.debug;
+            case LogConfig.Levels.INFO:
+                return this.levels.info;
+            case LogConfig.Levels.WARN:
+                return this.levels.warn;
+            case LogConfig.Levels.ERROR:
+                return this.levels.error;
+            case LogConfig.Levels.CRITICAL:
+                return this.levels.critical;
+            default:
+                return this.levels.error;
+        }
+    }
+
     log(logLevel, message) {
-        if (logLevel.shouldLog(this.minimumLevel)) {
+        if (logLevel.shouldLog(this._minimumLevel)) {
             console.log(logLevel.formatMessage(message));
         }
+    }
+
+    timestamp() {
+        const ts = new Date().toISOString();
+        this.log(this.levels.debug, ts);
     }
 
     debug(message) {
