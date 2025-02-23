@@ -16,7 +16,9 @@ class LogLevel {
 
     formatMessage(message) {
         if (isObject(message)) {
-            return JSON.stringify(message, null, 4);
+            let json = JSON.stringify(message, null, 4);
+            json += json.replaceAll("\\n", "\n");
+            return json;
         }
 
         return `${LogConfig.Colors.WHITE}[${this.color}${this.abbreviation}` +
