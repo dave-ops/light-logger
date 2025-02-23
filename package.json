@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "deploy": "npm version patch && npm publish --access public && git add . && git commit -m 'bump version' && git push"
+        "deploy": "npm version patch && npm publish --access public && git add . && git commit -m 'bump version' && git push",
+        "prepub": "echo npm publish --access public"
     },
     "keywords": [
         "logger",
