@@ -1,66 +1,98 @@
-class Logger {
+// Base configuration classes
+class LogConfig {
     static Levels = {
-        'DEBUG': 0,
-        'INFO': 1,
-        'WARN': 2,
-        'ERROR': 3
+        DEBUG: 0,
+        INFO: 1,
+        WARN: 2,
+        ERROR: 3
     };
 
     static Colors = {
         Reset: '\x1b[0m',
         White: '\x1b[37m',
         Blue: '\x1b[34m',
-        Gray: '\x1b[90m',
-        Green: '\x1b[32m',
         Yellow: '\x1b[33m',
-        Red: '\x1b[31m',
         Orange: '\x1b[38;5;208m',
+        Red: '\x1b[31m'
     };
+}
 
-    constructor(level = Logger.Levels.DEBUG) {
-        this.level = level;
+// Abstract LogLevel class for polymorphic behavior
+class LogLevel {
+    constructor(name, priority, color, abbreviation) {
+        this.name = name;
+        this.priority = priority;
+        this.color = color;
+        this.abbreviation = abbreviation;
     }
 
-    log(level, message) {
-        if (Logger.Levels[level] >= this.level) {
-            let formattedLevel;
+    formatMessage(message) {
+        return `${LogConfig.Colors.White}[${this.color}${this.abbreviation}${LogConfig.Colors.White}]${LogConfig.Colors.Reset} ${LogConfig.Colors.White}${message}${LogConfig.Colors.Reset}`;
+    }
 
-            switch (level) {
-                case 'DEBUG':
-                    formattedLevel = `${Logger.Colors.White}[${Logger.Colors.Blue}DBG${Logger.Colors.White}]${Logger.Colors.Reset}`;
-                    break;
-                case 'INFO':
-                    formattedLevel = `${Logger.Colors.White}[${Logger.Colors.Yellow}INF${Logger.Colors.White}]${Logger.Colors.Reset}`;
-                    break;
-                case 'WARN':
-                    formattedLevel = `${Logger.Colors.White}[${Logger.Colors.Orange}WRN${Logger.Colors.White}]${Logger.Colors.Reset}`;
-                    break;
-                case 'ERROR':
-                    formattedLevel = `${Logger.Colors.White}[${Logger.Colors.Red}ERR${Logger.Colors.White}]${Logger.Colors.Reset}`;
-                    break;
-                default:
-                    formattedLevel = `[${level}]`;
-            }
+    shouldLog(minimumPriority) {
+        return this.priority >= minimumPriority;
+    }
+}
 
-            console.log(`${formattedLevel} ${Logger.Colors.White}${message}${Logger.Colors.Reset}`);
+// Concrete log level implementations
+class DebugLevel extends LogLevel {
+    constructor() {
+        super('DEBUG', LogConfig.Levels.DEBUG, LogConfig.Colors.Blue, 'DBG');
+    }
+}
+
+class InfoLevel extends LogLevel {
+    constructor() {
+        super('INFO', LogConfig.Levels.INFO, LogConfig.Colors.Yellow, 'INF');
+    }
+}
+
+class WarnLevel extends LogLevel {
+    constructor() {
+        super('WARN', LogConfig.Levels.WARN, LogConfig.Colors.Orange, 'WRN');
+    }
+}
+
+class ErrorLevel extends LogLevel {
+    constructor() {
+        super('ERROR', LogConfig.Levels.ERROR, LogConfig.Colors.Red, 'ERR');
+    }
+}
+
+// Logger class using polymorphism
+class Logger {
+    constructor(minimumLevel = LogConfig.Levels.DEBUG) {
+        this.minimumLevel = minimumLevel;
+        this.levels = {
+            debug: new DebugLevel(),
+            info: new InfoLevel(),
+            warn: new WarnLevel(),
+            error: new ErrorLevel()
+        };
+    }
+
+    log(logLevel, message) {
+        if (logLevel.shouldLog(this.minimumLevel)) {
+            console.log(logLevel.formatMessage(message));
         }
     }
 
     debug(message) {
-        this.log('DEBUG', message);
+        this.log(this.levels.debug, message);
     }
 
     info(message) {
-        this.log('INFO', message);
+        this.log(this.levels.info, message);
     }
 
     warn(message) {
-        this.log('WARN', message);
+        this.log(this.levels.warn, message);
     }
 
     error(message) {
-        this.log('ERROR', new Date().toISOString());
-        this.log('ERROR', message);
+        this.log(this.levels.error, new Date().toISOString());
+        this.log(this.levels.error, message);
     }
 }
 
