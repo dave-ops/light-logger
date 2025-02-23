@@ -23,7 +23,7 @@ class LogConfig {
         INFO: { NAME: 'INFO', ABBREVIATION: 'INF', COLOR: LogConfig.Colors.YELLOW },
         WARN: { NAME: 'WARN', ABBREVIATION: 'WRN', COLOR: LogConfig.Colors.ORANGE },
         ERROR: { NAME: 'ERROR', ABBREVIATION: 'ERR', COLOR: LogConfig.Colors.RED },
-        CRITICAL: { NAME: 'CRITICAL', ABBREVIATION: 'CRT', COLOR: LogConfig.Colors.MAGENTA }  // Added CRITICAL config
+        CRITICAL: { NAME: 'CRITICAL', ABBREVIATION: 'CRT', COLOR: LogConfig.Colors.MAGENTA }
     };
 }
 
@@ -43,10 +43,9 @@ class LogLevel {
     shouldLog(minimumPriority) {
         return this.priority >= minimumPriority;
     }
-
 }
 
-// concrete log level implementations
+// Concrete log level implementations
 class DebugLevel extends LogLevel {
     constructor() {
         super(
@@ -104,9 +103,22 @@ class CriticalLevel extends LogLevel {
 
 // Logger class
 class Logger {
-    constructor(env = 'development') {
+    constructor(env = process.env.NODE_ENV || 'development') {
         this._env = env;
-        this._minimumLevel = env === 'production' ? LogConfig.Levels.ERROR : LogConfig.Levels.DEBUG;
+        // Check environment variable LOG_LEVEL first
+        const envLogLevel = process.env.LOG_LEVEL;
+        if (envLogLevel !== undefined && envLogLevel !== null) {
+            const levelNum = parseInt(envLogLevel, 10);
+            if (!isNaN(levelNum) && levelNum >= 0 && levelNum <= LogConfig.Levels.CRITICAL) {
+                this._minimumLevel = levelNum;
+            } else {
+                // If LOG_LEVEL is invalid, fall back to production check
+                this._minimumLevel = env === 'production' ? LogConfig.Levels.ERROR : LogConfig.Levels.DEBUG;
+            }
+        } else {
+            // No LOG_LEVEL specified, use production check
+            this._minimumLevel = env === 'production' ? LogConfig.Levels.ERROR : LogConfig.Levels.DEBUG;
+        }
         this.levels = {
             debug: new DebugLevel(),
             info: new InfoLevel(),
@@ -181,7 +193,7 @@ class Logger {
         this.log(this.levels.error, message);
     }
 
-    critical(message) {  // Added critical method
+    critical(message) {
         this.log(this.levels.critical, new Date().toISOString());
         this.log(this.levels.critical, message);
     }
