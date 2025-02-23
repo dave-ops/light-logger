@@ -17,10 +17,10 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/dave-ops/light-logger.git"
+        "url": "git+https://github.com/dave-ops/light-bright.git"
     },
     "bugs": {
-        "url": "https://github.com/dave-ops/light-logger/issues"
+        "url": "https://github.com/dave-ops/light-bright/issues"
     },
-    "homepage": "https://github.com/dave-ops/light-logger#readme"
+    "homepage": "https://github.com/dave-ops/light-bright#readme"
 }
