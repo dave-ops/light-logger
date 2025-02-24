@@ -1,13 +1,13 @@
 const colors = require("../constants/colors");
 
-function colorizeJson(jsonString, baseColor) {
-  const PRIMARY_COLOR = baseColor ?? colors.SILVER;
+function colorizeJson(jsonString, theme) {
+  const THEME_COLOR = theme ?? colors.SILVER;
   const lines = jsonString.split("\n");
 
   let result = lines.map((line) => {
       if (line.trim().startsWith('"') && line.includes('":')) {
         const [keyPart, valuePart] = line.split('":');
-        const fmt = `${colors.CYAN}${keyPart}":${colors.YELLOW}${valuePart || ""}${colors.RESET}`;
+        const fmt = `${THEME_COLOR}${keyPart}":${colors.LIGHT_GREY}${valuePart || ""}${colors.RESET}`;
         return fmt;
       } else if (line.startsWith('"') && !line.includes('":')) {
         return `${colors.BG_BEIGE}${line}${colors.RESET}`;
@@ -20,8 +20,8 @@ function colorizeJson(jsonString, baseColor) {
       }
     })
     .join("\n");
-  result = result.replaceAll('{', `${PRIMARY_COLOR}{${colors.RESET}`)
-  result = result.replaceAll('}', `${PRIMARY_COLOR}}${colors.RESET}`)
+  result = result.replaceAll('{', `${THEME_COLOR}{${colors.RESET}`)
+  result = result.replaceAll('}', `${THEME_COLOR}}${colors.RESET}`)
   result +=`${colors.RESET}`;
   return result;
 }

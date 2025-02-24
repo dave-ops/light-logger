@@ -36,7 +36,6 @@ class LogLevel {
         console.log(msg);
     }
 
-
     formatMessage(msg) {
         if (isObject(msg)) {
             return formatJson(msg);
@@ -57,7 +56,7 @@ class LogLevel {
             const data = msg.data;
             const num = msg.number;
 
-            return formatJson({ name, code, message, data, stack, num, });
+            return colorizeJson(JSON.stringify({ name, code, message, data, stack, num, }, null, 4), this.color);
         }
 
         return `${Colors.WHITE}[${this.color}${this.abbreviation}` +
