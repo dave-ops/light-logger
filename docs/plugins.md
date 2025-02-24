@@ -1,3 +1,49 @@
+# plugins
+
+## example
+```js
+const { Logger, plugins } = require('lite-bright');
+
+// Default logger (console output)
+const defaultLogger = new Logger();
+defaultLogger.debug('Debug message');
+
+// JSON-formatted logger to console
+const jsonLogger = new Logger('development', { formatter: plugins.jsonFormatter });
+jsonLogger.info('User logged in');
+
+// File logger with default formatting
+const fileLogger = new Logger('development', { output: new plugins.FileLogger('logs/app.log') });
+fileLogger.warn('Something might be wrong');
+fileLogger.close();
+
+// Combine JSON formatting and file output
+const jsonFileLogger = new Logger('development', {
+  formatter: plugins.jsonFormatter,
+  output: new plugins.FileLogger('logs/app.json.log'),
+});
+jsonFileLogger.error('Critical error occurred');
+jsonFileLogger.close();
+```
+
+## index.js
+```
+// src/index.js
+const Logger = require('./logger');
+const jsonFormatter = require('./plugins/jsonFormatter');
+const FileLogger = require('./plugins/fileLogger');
+
+module.exports = {
+  Logger,
+  plugins: {
+    jsonFormatter,
+    FileLogger,
+  },
+};
+```
+
+## logger.js
+```
 // src/logger.js
 const LogConfig = require('./logConfig');
 const DebugLevel = require('./levels/debugLevel');
@@ -59,3 +105,4 @@ class Logger {
 }
 
 module.exports = Logger;
+```
