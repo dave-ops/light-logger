@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lite-Bright Feedback</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Lite-Bright Feedback</h1>
+    <p>Share your suggestions and reviews for the Lite-Bright logging library!</p>
+  </header>
+
+  <main>
+    <section id="submit-feedback">
+      <h2>Submit Feedback</h2>
+      <form id="feedback-form">
+        <label for="type">Feedback Type:</label>
+        <select id="type" name="type" required>
+          <option value="suggestion">Suggestion</option>
+          <option value="review">Review</option>
+        </select>
+
+        <label for="message">Your Feedback:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+      <p id="form-message"></p>
+    </section>
+
+    <section id="reviews">
+      <h2>Community Reviews</h2>
+      <div id="review-list">
+        <!-- Static examples; could be dynamic later -->
+        <div class="review">
+          <p><strong>Review:</strong> "Great lightweight logger!" - User123</p>
+        </div>
+        <div class="review">
+          <p><strong>Suggestion:</strong> "Add log rotation." - DevFan</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Visit <a href="https://github.com/dave-ops/lite-bright">GitHub</a> for more info or to contribute.</p>
+  </footer>
+
+  <script>
+    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const type = document.getElementById('type').value;
+      const message = document.getElementById('message').value;
+      const formMessage = document.getElementById('form-message');
+
+      // Placeholder for submission logic
+      formMessage.textContent = `Thanks for your ${type}! We'll review it soon. For now, please post to GitHub Issues: https://github.com/dave-ops/lite-bright/issues`;
+      formMessage.style.color = 'green';
+
+      // Clear form
+      this.reset();
+    });
+  </script>
+</body>
+</html>
