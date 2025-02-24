@@ -10,7 +10,10 @@ function jsonFormatter(message, logLevel) {
   };
 
   // Convert to JSON with 4 spaces indentation
-  let jsonString = JSON.stringify(formattedMessage, null, 4)
+  let jsonString = JSON.stringify(formattedMessage, null, 4);
+  jsonString = jsonString.replaceAll("\\n", "\n");
+
+
     .split("\n")
     .map((line) => {
       const trimmed = line.trim();
@@ -20,23 +23,22 @@ function jsonFormatter(message, logLevel) {
       // Annotate different parts of the JSON
       if (trimmed.startsWith('"') && trimmed.includes('":')) {
         // Key annotation
-        return `    [KEY]${trimmed}`;
+        return `    ${trimmed}`;
       } else if (trimmed.startsWith('"') && !trimmed.includes('":')) {
         // String value annotation
-        return `    [STRING]${trimmed}`;
+        return `    ${trimmed}`;
       } else if (/^\d+$/.test(trimmed)) {
         // Number annotation
-        return `    [NUMBER]${trimmed}`;
+        return `    ${trimmed}`;
       } else if (trimmed === "true" || trimmed === "false") {
         // Boolean annotation
-        return `    [BOOLEAN]${trimmed}`;
+        return `    ${trimmed}`;
       }
       return line; // Structural lines ({, }, etc.)
     })
     .join("\n");
 
-  jsonString = jsonString.replaceAll("\\n", "\n");
-
+  
   return jsonString;
 }
 
