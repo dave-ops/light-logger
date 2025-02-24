@@ -1,6 +1,6 @@
 {
     "name": "lite-bright",
-    "version": "1.2.10",
+    "version": "1.2.11",
     "description": "A lightweight, colorful console logger",
     "main": "src/index.js",
     "scripts": {

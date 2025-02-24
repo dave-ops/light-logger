@@ -49,14 +49,6 @@ npm install lite-bright
 ```
 
 ## Usage
-
-**Set LOG_LEVEL to 1 (INFO)**
-falls back to env === 'production' ? 3 : 0
-```
-export LOG_LEVEL=1
-node examples\index.js
-```
-
 ```
 const { log } = require("lite-bright");
 log.timestamp();
