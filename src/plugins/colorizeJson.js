@@ -20,6 +20,8 @@ function colorizeJson(jsonString) {
       }
     })
     .join("\n");
+  result = result.replaceAll('{', `${colors.SILVER}{${colors.RESET}`)
+  result = result.replaceAll('}', `${colors.SILVER}}${colors.RESET}`)
   result +=`${colors.RESET}`;
   return result;
 }
