@@ -1,7 +1,6 @@
 // logLevel.js
 const Colors = require("./constants/colors");
 const colorizeJson = require('./plugins/colorizeJson');
-const LogConfig = require("./LogConfig")
 
 const isObject = (value) => {
     return value !== null && typeof value === 'object' && 
@@ -14,35 +13,13 @@ const isTimestamp = (strMsg) => {
     return timestampRegex.test(strMsg);
 }
 
-const getCurrentFilePath = () => {
-    try {
-        // Throw an error to capture the stack trace
-        throw new Error('Getting stack trace');
-    } catch (error) {
-        // Split the stack trace into lines
-        const stackLines = error.stack.split('\n');
-        
-        // Get the second line (first line is the error message)
-        // This points to the line that called this function
-        const callerLine = stackLines[2];
-        
-        // Extract the file path using regex
-        // Matches pattern like "at /full/path/to/file.js:line:column"
-        const filePathMatch = callerLine.match(/\s+at\s+(.*:\d+:\d+)/);
-        
-        if (filePathMatch) {
-            // Extract just the full path (remove line and column numbers)
-            const fullPathWithPosition = filePathMatch[1];
-            const fullPath = fullPathWithPosition.replace(/:\d+:\d+$/, '');
+const formatJson = (obj) => {
+    let json = JSON.stringify(obj, null, 4);
+    json = json.replaceAll("\\n", "\n");
+    json = colorizeJson(json);
+    return json;
 
-            const slots = fullPath.split('.');
-            return slots[0];
-        }
-        
-        // Fallback if regex fails
-        return 'Unable to determine file path';
-    }
-};
+}
 
 class LogLevel {
     constructor(name, priority, color, abbreviation) {
@@ -55,29 +32,37 @@ class LogLevel {
     }
 
     onInstantiated(data) {
-        const msg = `${Colors.WHITE}${getCurrentFilePath()}${Colors.GREY} log level set to ${data.color}${this.name}${Colors.RESET}`;
+        const msg = `${Colors.WHITE}${__filename}${Colors.GREY} log level set to ${data.color}${this.name}${Colors.RESET}`;
         console.log(msg);
     }
 
 
-    formatMessage(message) {
-        if (isObject(message)) {
-            let json = JSON.stringify(message, null, 4);
-            json = json.replaceAll("\\n", "\n");
-            json = colorizeJson(json);
-            return json;
+    formatMessage(msg) {
+        if (isObject(msg)) {
+            return formatJson(msg);
         }
 
-        if (isTimestamp(message)) {
+        if (isTimestamp(msg)) {
             return `${Colors.WHITE}[${this.color}${this.abbreviation}` +
             `${Colors.WHITE}]${Colors.RESET} ` +
-            `${this.color}${message}${Colors.RESET}`;
+            `${this.color}${msg}${Colors.RESET}`;
 
+        }
+
+        if (msg instanceof Error) {
+            const name = msg.name;
+            const message = msg.message;
+            const stack = msg.stack;
+            const code = msg.code;
+            const data = msg.data;
+            const num = msg.number;
+
+            return formatJson({ name, code, message, data, stack, num, });
         }
 
         return `${Colors.WHITE}[${this.color}${this.abbreviation}` +
                `${Colors.WHITE}]${Colors.RESET} ` +
-               `${Colors.LIGHT_GREY}${message}${Colors.RESET}`;
+               `${Colors.LIGHT_GREY}${msg}${Colors.RESET}`;
     }
 
     shouldLog(minimumPriority) {
