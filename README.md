@@ -43,11 +43,22 @@ node examples\index.js
 
 ```
 const { log } = require("lite-bright");
-log.debug("Debug message");    // Won't log (0 < 1)
-log.info("Info message");      // Will log (1 >= 1)
-log.warn("Warning message");   // Will log (2 >= 1)
-log.error("Error message");    // Will log (3 >= 1)
-log.critical("Critical");      // Will log (4 >= 1)
+log.timestamp();
+log.debug("Debug message");
+log.info("Info message");
+log.warn("Warning message");
+log.error("Error message");
+log.critical("System failure detected");
+
+const obj = {
+    "id": 1,
+    "child": {
+        "code": "x",
+        "value": 12345
+    }
+};
+log.debug(obj);
+
 ```
 ![alt text](https://github.com/dave-ops/light-bright/blob/main/examples/image.png)
 

@@ -17,7 +17,7 @@ class LogLevel {
     formatMessage(message) {
         if (isObject(message)) {
             let json = JSON.stringify(message, null, 4);
-            json += json.replaceAll("\\n", "\n");
+            json = json.replaceAll("\\n", "\n");
             return json;
         }
 

@@ -8,11 +8,5 @@ log.warn("Warning message");
 log.error("Error message");
 log.critical("System failure detected");
 
-const obj = {
-    "a": 1,
-    "b": {
-        "c": "x",
-    }
-};
-
-log.debug(obj);
+const json = { id: 1, name: 'jepedo', child: { id: 2, name: 'pinoccio' } };
+log.debug(json);
