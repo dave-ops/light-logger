@@ -1,6 +1,6 @@
-// logger.js
+// src/Logger.js
 const LogConfig = require('./LogConfig');
-const LogLevelConfig = require('./logLevel.js');
+const LogLevelConfig = require('./LogLevelConfig');  // Updated to match the actual file name and location
 const DebugLevel = require('./core/levels/DebugLevel');
 const InfoLevel = require('./core/levels/InfoLevel');
 const WarnLevel = require('./core/levels/WarnLevel');

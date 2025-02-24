@@ -1,4 +1,6 @@
 // logLevel.js
+const LogConfig = require('./LogConfig');
+
 class LogLevelConfig {
     static DEFAULT_ENV = 'development';
     static DECIMAL_RADIX = 10;

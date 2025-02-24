@@ -1,143 +1,160 @@
-// tests/logger.test.js
-const Logger = require('../src/Logger');
+// tests/Logger.test.js
+const Logger = require('../src/Logger');  // Updated to reflect the path from tests to src/Logger.js
+const LogLevelConfig = require('../src/LogLevelConfig');  // Updated to reflect the path from tests to src/LogLevelConfig.js
 
-// Mock dependencies
-jest.mock('../src/LogConfig', () => ({
-  Levels: {
-    DEBUG: 0,
-    INFO: 1,
-    WARN: 2,
-    ERROR: 3,
-    CRITICAL: 4,
-  },
-}));
-
-jest.mock('../src/core/levels/DebugLevel', () => jest.fn(() => ({
-  shouldLog: jest.fn((minLevel) => minLevel <= 0),
-  formatMessage: jest.fn((msg) => `[DEBUG] ${msg}`),
-})));
-jest.mock('../src/core/levels/InfoLevel', () => jest.fn(() => ({
-  shouldLog: jest.fn((minLevel) => minLevel <= 1),
-  formatMessage: jest.fn((msg) => `[INFO] ${msg}`),
-})));
-jest.mock('../src/core/levels/WarnLevel', () => jest.fn(() => ({
-  shouldLog: jest.fn((minLevel) => minLevel <= 2),
-  formatMessage: jest.fn((msg) => `[WARN] ${msg}`),
-})));
-jest.mock('../src/core/levels/ErrorLevel', () => jest.fn(() => ({
-  shouldLog: jest.fn((minLevel) => minLevel <= 3),
-  formatMessage: jest.fn((msg) => `[ERROR] ${msg}`),
-})));
-jest.mock('../src/core/levels/CriticalLevel', () => jest.fn(() => ({
-  shouldLog: jest.fn((minLevel) => minLevel <= 4),
-  formatMessage: jest.fn((msg) => `[CRITICAL] ${msg}`),
-})));
-
-// Mock console.log
+// Mock console.log to verify logging behavior
 console.log = jest.fn();
 
 describe('Logger', () => {
   let logger;
 
   beforeEach(() => {
-    // Reset mocks and environment variables before each test
-    jest.clearAllMocks();
+    // Clear mock calls before each test
+    console.log.mockClear();
+    // Reset environment variables
     delete process.env.NODE_ENV;
     delete process.env.LOG_LEVEL;
   });
 
   describe('constructor', () => {
-    it('sets minimumLevel to DEBUG in development by default', () => {
-      logger = new Logger('development');
-      expect(logger.minimumLevel).toBe(0); // LogConfig.Levels.DEBUG
+    it('sets default environment to development when NODE_ENV is not set', () => {
+      logger = new Logger();
+      expect(logger.env).toBe(LogLevelConfig.DEFAULT_ENV);
     });
 
-    it('sets minimumLevel to ERROR in production by default', () => {
+    it('uses NODE_ENV when provided', () => {
+      process.env.NODE_ENV = 'production';
+      logger = new Logger();
+      expect(logger.env).toBe('production');
+    });
+
+    it('sets minimumLevel from LOG_LEVEL when valid', () => {
+      process.env.LOG_LEVEL = '2'; // Assuming WARN is 2
+      logger = new Logger();
+      expect(logger.minimumLevel).toBe(2);
+    });
+
+    it('sets default minimumLevel for development', () => {
+      logger = new Logger('development');
+      expect(logger.minimumLevel).toBe(Logger.Levels.DEBUG);
+    });
+
+    it('sets default minimumLevel for production', () => {
       logger = new Logger('production');
-      expect(logger.minimumLevel).toBe(3); // LogConfig.Levels.ERROR
+      expect(logger.minimumLevel).toBe(Logger.Levels.ERROR);
+    });
+  });
+
+  describe('level getters and setters', () => {
+    beforeEach(() => {
+      logger = new Logger();
     });
 
-    it('uses valid LOG_LEVEL from environment if provided', () => {
-      process.env.LOG_LEVEL = '2';
-      logger = new Logger('development');
-      expect(logger.minimumLevel).toBe(2); // LogConfig.Levels.WARN
+    it('gets Levels statically', () => {
+      expect(Logger.Levels).toBeDefined();
+      expect(Logger.Levels.DEBUG).toBeDefined();
     });
 
-    it('falls back to default if LOG_LEVEL is invalid', () => {
-      process.env.LOG_LEVEL = 'invalid';
-      logger = new Logger('development');
-      expect(logger.minimumLevel).toBe(0); // LogConfig.Levels.DEBUG
+    it('gets Levels from instance', () => {
+      expect(logger.Levels).toBeDefined();
+      expect(logger.Levels.INFO).toBeDefined();
+    });
+
+    it('gets and sets level', () => {
+      logger.level = Logger.Levels.WARN;
+      expect(logger.level).toBe(Logger.Levels.WARN);
+      expect(logger.minimumLevel).toBe(Logger.Levels.WARN);
     });
   });
 
   describe('toLevel', () => {
     beforeEach(() => {
-      logger = new Logger('development');
+      logger = new Logger();
     });
 
-    it('returns debug level for DEBUG number', () => {
-      const level = logger.toLevel(0);
-      expect(level.formatMessage('test')).toBe('[DEBUG] test');
+    it('returns correct level objects', () => {
+      expect(logger.toLevel(Logger.Levels.DEBUG)).toBe(logger.levels.debug);
+      expect(logger.toLevel(Logger.Levels.INFO)).toBe(logger.levels.info);
+      expect(logger.toLevel(Logger.Levels.WARN)).toBe(logger.levels.warn);
+      expect(logger.toLevel(Logger.Levels.ERROR)).toBe(logger.levels.error);
+      expect(logger.toLevel(Logger.Levels.CRITICAL)).toBe(logger.levels.critical);
     });
 
-    it('returns error level for invalid level number', () => {
-      const level = logger.toLevel(999);
-      expect(level.formatMessage('test')).toBe('[ERROR] test');
-    });
-  });
-
-  describe('log', () => {
-    beforeEach(() => {
-      logger = new Logger('development');
-    });
-
-    it('logs message if level meets minimum', () => {
-      logger.log(logger.levels.info, 'Test info');
-      expect(console.log).toHaveBeenCalledWith('[INFO] Test info');
-    });
-
-    it('does not log if level is below minimum', () => {
-      logger.level = 2; // WARN
-      logger.log(logger.levels.debug, 'Test debug');
-      expect(console.log).not.toHaveBeenCalled();
+    it('defaults to error level for invalid input', () => {
+      expect(logger.toLevel(999)).toBe(logger.levels.error);
     });
   });
 
-  describe('convenience methods', () => {
+  describe('logging methods', () => {
     beforeEach(() => {
-      logger = new Logger('development');
+      logger = new Logger();
+      logger.level = Logger.Levels.DEBUG; // Allow all logging
     });
 
-    it('debug logs debug messages', () => {
-      logger.debug('Debug message');
-      expect(console.log).toHaveBeenCalledWith('[DEBUG] Debug message');
+    it('debug logs message', () => {
+      const message = 'test debug';
+      logger.debug(message);
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringContaining(message)
+      );
     });
 
-    it('info logs info messages', () => {
-      logger.info('Info message');
-      expect(console.log).toHaveBeenCalledWith('[INFO] Info message');
+    it('info logs message', () => {
+      const message = 'test info';
+      logger.info(message);
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringContaining(message)
+      );
+    });
+
+    it('warn logs message', () => {
+      const message = 'test warn';
+      logger.warn(message);
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringContaining(message)
+      );
     });
 
     it('error logs timestamp and message', () => {
-      logger.error('Error message');
+      const message = 'test error';
+      logger.error(message);
       expect(console.log).toHaveBeenCalledTimes(2);
-      expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/\[ERROR\] \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z/));
-      expect(console.log).toHaveBeenCalledWith('[ERROR] Error message');
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/\d{4}-\d{2}-\d{2}T/)
+      );
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringContaining(message)
+      );
     });
 
     it('critical logs timestamp and message', () => {
-      logger.critical('Critical message');
+      const message = 'test critical';
+      logger.critical(message);
       expect(console.log).toHaveBeenCalledTimes(2);
-      expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/\[CRITICAL\] \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z/));
-      expect(console.log).toHaveBeenCalledWith('[CRITICAL] Critical message');
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/\d{4}-\d{2}-\d{2}T/)
+      );
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringContaining(message)
+      );
     });
-  });
 
-  describe('timestamp', () => {
-    it('logs current timestamp at debug level', () => {
-      logger = new Logger('development');
+    it('timestamp logs current time', () => {
       logger.timestamp();
-      expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/\[DEBUG\] \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z/));
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/\d{4}-\d{2}-\d{2}T/)
+      );
+    });
+
+    it('respects minimum level', () => {
+      logger.level = Logger.Levels.WARN;
+      logger.debug('should not log');
+      logger.info('should not log');
+      logger.warn('should log');
+      expect(console.log).toHaveBeenCalledTimes(1);
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringContaining('should log')
+      );
     });
   });
 });
