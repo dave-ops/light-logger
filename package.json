@@ -40,5 +40,8 @@
             "text",
             "lcov"
         ]
+    },
+    "dependencies": {
+        "lite-bright": "^1.2.4"
     }
 }

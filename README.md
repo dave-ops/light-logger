@@ -82,3 +82,14 @@ log.debug(obj);
 ```
 npm publish --access public
 ```
+
+```json
+{
+    "id": 1,
+    "name": "jepedo",
+    "child": {
+        "id": 2,
+        "name": "pinoccio"
+    }
+}
+```

@@ -1,39 +1,27 @@
 const colors = require("../constants/colors");
 
-// Function to colorize the JSON
-function colorizeJson(json) {
-  let jsonString = JSON.stringify(json, null, 4);
-  jsonString
-    .split("\n")
-    .map((line) => {
-      const trimmed = line.trim();
+function colorizeJson(jsonString) {
 
-      if (!trimmed) return line; // Preserve empty lines
+  const lines = jsonString.split("\n");
 
-      // Apply colors based on content
-      if (trimmed.startsWith('"') && trimmed.includes('":')) {
-        // Color the key (everything before ':')
-        const [keyPart, valuePart] = trimmed.split('":');
-        return `    ${colors.BEIGE}${keyPart}":${colors.RESET}${
-          valuePart || ""
-        }`;
-      } else if (trimmed.startsWith('"') && !trimmed.includes('":')) {
-        // Color string values
-        return `    ${colors.BG_BEIGE}${trimmed}${colors.RESET}`;
-      } else if (/^\d+$/.test(trimmed)) {
-        // Color numbers
-        return `    ${colors.YELLOW}${trimmed}${colors.RESET}`;
-      } else if (trimmed === "true" || trimmed === "false") {
-        // Color booleans
-        return `    ${colors.MAGENTA}${trimmed}${colors.RESET}`;
+  let result = lines.map((line) => {
+      if (line.trim().startsWith('"') && line.includes('":')) {
+        const [keyPart, valuePart] = line.split('":');
+        const fmt = `${colors.CYAN}${keyPart}":${colors.YELLOW}${valuePart || ""}${colors.RESET}`;
+        return fmt;
+      } else if (line.startsWith('"') && !line.includes('":')) {
+        return `${colors.BG_BEIGE}${line}${colors.RESET}`;
+      } else if (/^\d+$/.test(line)) {
+        return `${colors.YELLOW}${line}${colors.RESET}`;
+      } else if (line === "true" || line === "false") {
+        return `${colors.MAGENTA}${line}${colors.RESET}`;
       } else {
-        // Color structural elements ({, }, etc.)
-        return `    ${colors.GREY}${trimmed}${colors.RESET}`;
+        return `${colors.GREY}${line}${colors.RESET}`;
       }
     })
     .join("\n");
-
-  return jsonString;
+  result +=`${colors.RESET}`;
+  return result;
 }
 
 module.exports = colorizeJson;
