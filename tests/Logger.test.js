@@ -1,8 +1,8 @@
 // tests/logger.test.js
-const Logger = require('../logger');
+const Logger = require('../src/Logger');
 
 // Mock dependencies
-jest.mock('../LogConfig', () => ({
+jest.mock('../src/LogConfig', () => ({
   Levels: {
     DEBUG: 0,
     INFO: 1,
@@ -12,23 +12,23 @@ jest.mock('../LogConfig', () => ({
   },
 }));
 
-jest.mock('../levels/DebugLevel', () => jest.fn(() => ({
+jest.mock('../src/core/levels/DebugLevel', () => jest.fn(() => ({
   shouldLog: jest.fn((minLevel) => minLevel <= 0),
   formatMessage: jest.fn((msg) => `[DEBUG] ${msg}`),
 })));
-jest.mock('../levels/InfoLevel', () => jest.fn(() => ({
+jest.mock('../src/core/levels/InfoLevel', () => jest.fn(() => ({
   shouldLog: jest.fn((minLevel) => minLevel <= 1),
   formatMessage: jest.fn((msg) => `[INFO] ${msg}`),
 })));
-jest.mock('../levels/WarnLevel', () => jest.fn(() => ({
+jest.mock('../src/core/levels/WarnLevel', () => jest.fn(() => ({
   shouldLog: jest.fn((minLevel) => minLevel <= 2),
   formatMessage: jest.fn((msg) => `[WARN] ${msg}`),
 })));
-jest.mock('../levels/ErrorLevel', () => jest.fn(() => ({
+jest.mock('../src/core/levels/ErrorLevel', () => jest.fn(() => ({
   shouldLog: jest.fn((minLevel) => minLevel <= 3),
   formatMessage: jest.fn((msg) => `[ERROR] ${msg}`),
 })));
-jest.mock('../levels/CriticalLevel', () => jest.fn(() => ({
+jest.mock('../src/core/levels/CriticalLevel', () => jest.fn(() => ({
   shouldLog: jest.fn((minLevel) => minLevel <= 4),
   formatMessage: jest.fn((msg) => `[CRITICAL] ${msg}`),
 })));

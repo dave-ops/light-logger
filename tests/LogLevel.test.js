@@ -1,8 +1,8 @@
 // tests/logLevel.test.js
-const LogLevel = require('../logLevel');
+const LogLevel = require('../src/LogLevel');
 
 // Mock LogConfig dependency
-jest.mock('../LogConfig', () => ({
+jest.mock('../src/LogConfig', () => ({
   Colors: {
     WHITE: '\x1b[37m',
     RESET: '\x1b[0m',

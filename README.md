@@ -14,28 +14,32 @@ A lightweight, colorful ANSI console logging utility for Node.js.
 ## Folder Structure
 ```
 lite-bright/
-light-bright/
-├── levels/
-│   ├── debugLevel.js
-│   ├── infoLevel.js
-│   ├── warnLevel.js
-│   ├── errorLevel.js
-│   └── criticalLevel.js
+├── src/
+│   ├── core/                   # Core logging functionality
+│   │   ├── levels/
+│   │   ├── logConfig.js
+│   │   ├── logLevel.js
+│   │   └── logger.js
+│   ├── plugins/                # Future plugins (e.g., file output, custom formats)
+│   │   ├── fileLogger.js
+│   │   └── jsonFormatter.js
+│   └── index.js                # Exports core and plugins
+├── dist/                       # Compiled output (if using a build step)
+│   ├── index.js
+│   └── ...                     # Other compiled files
 ├── tests/
-│   ├── levels/
-│   │   ├── debugLevel.test.js
-│   │   ├── infoLevel.test.js
-│   │   ├── warnLevel.test.js
-│   │   ├── errorLevel.test.js
-│   │   └── criticalLevel.test.js
-│   ├── logConfig.test.js
-│   ├── logLevel.test.js
-│   ├── logger.test.js
-│   └── index.test.js
-├── logConfig.js
-├── logLevel.js
-├── logger.js
-└── index.js
+│   ├── core/
+│   │   ├── logger.test.js
+│   │   └── ...
+│   └── plugins/
+│       ├── fileLogger.test.js
+│       └── ...
+├── scripts/                    # Build or utility scripts
+│   └── build.js
+├── package.json
+├── .gitignore
+├── .eslintrc.js
+└── README.md
 ```
 
 ## Installation
