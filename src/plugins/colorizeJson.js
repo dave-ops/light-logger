@@ -1,7 +1,7 @@
 const colors = require("../constants/colors");
 
-function colorizeJson(jsonString) {
-
+function colorizeJson(jsonString, baseColor) {
+  const PRIMARY_COLOR = baseColor ?? colors.SILVER;
   const lines = jsonString.split("\n");
 
   let result = lines.map((line) => {
@@ -20,8 +20,8 @@ function colorizeJson(jsonString) {
       }
     })
     .join("\n");
-  result = result.replaceAll('{', `${colors.SILVER}{${colors.RESET}`)
-  result = result.replaceAll('}', `${colors.SILVER}}${colors.RESET}`)
+  result = result.replaceAll('{', `${PRIMARY_COLOR}{${colors.RESET}`)
+  result = result.replaceAll('}', `${PRIMARY_COLOR}}${colors.RESET}`)
   result +=`${colors.RESET}`;
   return result;
 }
