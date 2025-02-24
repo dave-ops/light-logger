@@ -1,7 +1,5 @@
 // logLevel.js
 const LogConfig = require('./LogConfig');
-const jsonFormatter = require('./plugins/jsonFormatter');
-const colorizeJson = require('./plugins/colorizeJson');
 
 const isObject = (value) => {
     return value !== null && typeof value === 'object' && 
@@ -18,8 +16,8 @@ class LogLevel {
 
     formatMessage(message) {
         if (isObject(message)) {
-            let json = jsonFormatter(message);
-            json = colorizeJson(json);
+            let json = JSON.stringify(message, null, 4);
+            json = json.replaceAll("\\n", "\n");
             return json;
         }
 
@@ -31,6 +29,8 @@ class LogLevel {
     shouldLog(minimumPriority) {
         return this.priority >= minimumPriority;
     }
+
+    
 }
 
 module.exports = LogLevel;
