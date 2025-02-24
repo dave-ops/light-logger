@@ -76,7 +76,7 @@ const obj = {
 log.debug(obj);
 
 ```
-![alt text](https://github.com/dave-ops/light-bright/blob/main/examples/image.png)
+![alt text](https://github.com/dave-ops/light-bright/blob/main/docs/images/example.png)
 
 ## Publish
 ```
