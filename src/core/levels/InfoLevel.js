@@ -1,6 +1,7 @@
 // levels/infoLevel.js
-const LogLevel = require('../LogLevel');
-const LogConfig = require('../LogConfig');
+const LogLevel = require('../../LogLevel');
+const LogConfig = require('../../LogConfig');
+
 
 class InfoLevel extends LogLevel {
     constructor() {

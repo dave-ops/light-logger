@@ -1,6 +1,7 @@
 // levels/warnLevel.js
-const LogLevel = require('../LogLevel');
-const LogConfig = require('../LogConfig');
+const LogLevel = require('../../LogLevel');
+const LogConfig = require('../../LogConfig');
+
 
 class WarnLevel extends LogLevel {
     constructor() {

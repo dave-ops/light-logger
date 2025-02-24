@@ -1,5 +1,4 @@
-const { log } = require("../index");
-
+const { log } = require("../src/index");
 
 log.timestamp();
 log.debug("Debug message");

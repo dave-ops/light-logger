@@ -1,6 +1,6 @@
 // levels/debugLevel.js
-const LogLevel = require('../LogLevel');
-const LogConfig = require('../LogConfig');
+const LogLevel = require('../../LogLevel');
+const LogConfig = require('../../LogConfig');
 
 class DebugLevel extends LogLevel {
     constructor() {
