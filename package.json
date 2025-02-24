@@ -4,9 +4,9 @@
     "description": "A lightweight, colorful console logger",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "deploy": "npm version patch && npm publish --access public && git add . && git commit -m 'bump version' && git push",
-        "prepub": "echo npm publish --access public"
+        "prepub": "echo off && echo npm publish --access public"
     },
     "keywords": [
         "logger",
@@ -24,5 +24,8 @@
     "bugs": {
         "url": "https://github.com/dave-ops/lite-bright/issues"
     },
-    "homepage": "https://github.com/dave-ops/lite-bright#readme"
+    "homepage": "https://github.com/dave-ops/lite-bright#readme",
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
 }

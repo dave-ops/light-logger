@@ -13,6 +13,7 @@ A lightweight, colorful ANSI console logging utility for Node.js.
 
 ## Folder Structure
 ```
+lite-bright/
 light-bright/
 ├── levels/
 │   ├── debugLevel.js
@@ -20,6 +21,17 @@ light-bright/
 │   ├── warnLevel.js
 │   ├── errorLevel.js
 │   └── criticalLevel.js
+├── tests/
+│   ├── levels/
+│   │   ├── debugLevel.test.js
+│   │   ├── infoLevel.test.js
+│   │   ├── warnLevel.test.js
+│   │   ├── errorLevel.test.js
+│   │   └── criticalLevel.test.js
+│   ├── logConfig.test.js
+│   ├── logLevel.test.js
+│   ├── logger.test.js
+│   └── index.test.js
 ├── logConfig.js
 ├── logLevel.js
 ├── logger.js
