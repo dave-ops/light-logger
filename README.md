@@ -42,7 +42,7 @@ node examples\index.js
 ```
 
 ```
-const { log } = require("../index");
+const { log } = require("lite-bright");
 log.debug("Debug message");    // Won't log (0 < 1)
 log.info("Info message");      // Will log (1 >= 1)
 log.warn("Warning message");   // Will log (2 >= 1)
