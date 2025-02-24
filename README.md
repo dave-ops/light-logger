@@ -14,7 +14,6 @@ A lightweight, colorful ANSI console logging utility for Node.js.
 ## Folder Structure
 ```
 lite-bright/
-light-bright/
 ├── levels/
 │   ├── debugLevel.js
 │   ├── infoLevel.js

@@ -1,8 +1,8 @@
 // tests/logger.test.js
-const Logger = require('../logger');
+const Logger = require('../src/Logger');
 
 // Mock dependencies
-jest.mock('../LogConfig', () => ({
+jest.mock('../src/LogConfig', () => ({
   Levels: {
     DEBUG: 0,
     INFO: 1,
