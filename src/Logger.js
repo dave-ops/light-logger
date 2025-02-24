@@ -1,5 +1,6 @@
 // logger.js
 const LogConfig = require('./LogConfig');
+const LogLevelConfig = require('./logLevel.js');
 const DebugLevel = require('./core/levels/DebugLevel');
 const InfoLevel = require('./core/levels/InfoLevel');
 const WarnLevel = require('./core/levels/WarnLevel');
@@ -7,19 +8,10 @@ const ErrorLevel = require('./core/levels/ErrorLevel');
 const CriticalLevel = require('./core/levels/CriticalLevel');
 
 class Logger {
-    constructor(env = process.env.NODE_ENV || 'development') {
+    constructor(env = process.env.NODE_ENV || LogLevelConfig.DEFAULT_ENV) {
         this._env = env;
-        const envLogLevel = process.env.LOG_LEVEL;
-        if (envLogLevel !== undefined && envLogLevel !== null) {
-            const levelNum = parseInt(envLogLevel, 10);
-            if (!isNaN(levelNum) && levelNum >= 0 && levelNum <= LogConfig.Levels.CRITICAL) {
-                this._minimumLevel = levelNum;
-            } else {
-                this._minimumLevel = env === 'production' ? LogConfig.Levels.ERROR : LogConfig.Levels.DEBUG;
-            }
-        } else {
-            this._minimumLevel = env === 'production' ? LogConfig.Levels.ERROR : LogConfig.Levels.DEBUG;
-        }
+        this._minimumLevel = LogLevelConfig.determineLogLevel(process.env.LOG_LEVEL, env);
+        
         this.levels = {
             debug: new DebugLevel(),
             info: new InfoLevel(),
