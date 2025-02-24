@@ -62,12 +62,12 @@ describe('jsonFormatter', () => {
 
     const expected = [
       '{',
-      '    "timestamp": "2025-02-24T14:17:00.000Z",',
-      '    "level": "WARN",',
-      '    "message": {',
-      '        "status": "failed",',
-      '        "retries": [NUMBER]3,',
-      '        "active": [BOOLEAN]false',
+      '    [KEY]"timestamp": "2025-02-24T14:17:00.000Z",',
+      '    [KEY]"level": "WARN",',
+      '    [KEY]"message": {',
+      '    [KEY]"status": "failed",',
+      '    [KEY]"retries": 3,',
+      '    [KEY]"active": false',
       '    }',
       '}'
     ].join('\n');
@@ -98,10 +98,10 @@ describe('jsonFormatter', () => {
 
     const expected = [
       '{',
-      '    "timestamp": "2025-02-24T14:17:00.000Z",',
-      '    "level": "INFO",',
-      '    "message": {',
-      '        "text": ""',
+      '    [KEY]"timestamp": "2025-02-24T14:17:00.000Z",',
+      '    [KEY]"level": "INFO",',
+      '    [KEY]"message": {',
+      '    [KEY]"text": ""',
       '    }',
       '}'
     ].join('\n');
