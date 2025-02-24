@@ -1,10 +1,10 @@
 // logger.js
 const LogConfig = require('./LogConfig');
-const DebugLevel = require('./levels/DebugLevel');
-const InfoLevel = require('./levels/InfoLevel');
-const WarnLevel = require('./levels/WarnLevel');
-const ErrorLevel = require('./levels/ErrorLevel');
-const CriticalLevel = require('./levels/CriticalLevel');
+const DebugLevel = require('./core/levels/DebugLevel');
+const InfoLevel = require('./core/levels/InfoLevel');
+const WarnLevel = require('./core/levels/WarnLevel');
+const ErrorLevel = require('./core/levels/ErrorLevel');
+const CriticalLevel = require('./core/levels/CriticalLevel');
 
 class Logger {
     constructor(env = process.env.NODE_ENV || 'development') {
