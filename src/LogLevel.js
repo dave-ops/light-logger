@@ -7,6 +7,12 @@ const isObject = (value) => {
            Object.getPrototypeOf(value) === Object.prototype;
 };
 
+const isTimestamp = (strMsg) => {
+    // Regular expression for ISO 8601 timestamp format: YYYY-MM-DDTHH:MM:SS.SSSZ
+    const timestampRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+    return timestampRegex.test(strMsg);
+}
+
 class LogLevel {
     constructor(name, priority, color, abbreviation) {
         this.name = name;
@@ -21,6 +27,13 @@ class LogLevel {
             json = json.replaceAll("\\n", "\n");
             json = colorizeJson(json);
             return json;
+        }
+
+        if (isTimestamp(message)) {
+            return `${LogConfig.Colors.WHITE}[${this.color}${this.abbreviation}` +
+            `${LogConfig.Colors.WHITE}]${LogConfig.Colors.RESET} ` +
+            `${this.color}${message}${LogConfig.Colors.RESET}`;
+
         }
 
         return `${LogConfig.Colors.WHITE}[${this.color}${this.abbreviation}` +
