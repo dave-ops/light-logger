@@ -43,7 +43,7 @@ class Logger {
     set level(level) {
         this._minimumLevel = level;
     }
-
+    
     toLevel(levelNumber) {
         switch (levelNumber) {
             case LogConfig.Levels.DEBUG:
