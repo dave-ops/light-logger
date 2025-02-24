@@ -1,5 +1,6 @@
 // logLevel.js
 const LogConfig = require('./LogConfig');
+const colorizeJson = require('./plugins/colorizeJson');
 
 const isObject = (value) => {
     return value !== null && typeof value === 'object' && 
@@ -18,6 +19,7 @@ class LogLevel {
         if (isObject(message)) {
             let json = JSON.stringify(message, null, 4);
             json = json.replaceAll("\\n", "\n");
+            json = colorizeJson(json);
             return json;
         }
 

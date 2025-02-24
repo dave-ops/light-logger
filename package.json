@@ -1,6 +1,6 @@
 {
     "name": "lite-bright",
-    "version": "1.3.0",
+    "version": "1.2.5",
     "description": "A lightweight, colorful console logger",
     "main": "index.js",
     "scripts": {
@@ -40,5 +40,8 @@
             "text",
             "lcov"
         ]
+    },
+    "dependencies": {
+        "lite-bright": "^1.2.4"
     }
 }
