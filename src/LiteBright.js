@@ -19,7 +19,7 @@ const COLORS = {
 
 // Define the grid dimensions
 const GRID_HEIGHT = 15;
-const GRID_WIDTH = 30;
+const GRID_WIDTH = process.stdout.columns;
 
 // Initialize a blank grid with 'G' (grey) for unlit spots
 let grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill('G'));
