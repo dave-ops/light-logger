@@ -84,14 +84,16 @@ class Logger {
         this.log(this.levels.warn, message);
     }
 
-    error(message) {
-        this.log(this.levels.error, new Date().toISOString());
+    error(message, err) {
         this.log(this.levels.error, message);
+        this.log(this.levels.error, new Date().toISOString());
+        this.log(err);
     }
 
-    critical(message) {
-        this.log(this.levels.critical, new Date().toISOString());
+    critical(message, err) {
         this.log(this.levels.critical, message);
+        this.log(this.levels.critical, new Date().toISOString());
+        this.log(err);
     }
 }
 
