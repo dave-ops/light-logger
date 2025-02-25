@@ -1,6 +1,10 @@
 const readline = require('readline');
 const keypress = require('keypress');
 const colors = require('./constants/colors')
+const Logger = require('./plugins/fileLogger');
+const log = new Logger();
+
+log.log('be3gin')
 
 // Define colors for Lite-Brite
 const COLORS = {
@@ -20,8 +24,6 @@ const GRID_WIDTH = 30;
 // Initialize a blank grid with 'G' (grey) for unlit spots
 let grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill('G'));
 let pegs = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(false));
-
-console.log(pegs);
 
 // Define the mountain pattern
 const mountainPattern = [
@@ -48,8 +50,7 @@ let cursor = { row: 0, col: 0 };
 // Function to display the grid with cursor
 function displayGrid() {
     console.clear();
-    console.log('Lite-Brite CLI - Use arrow keys to move, W/B/P/Y/O to place peg, "q" to quit');
-    console.log('Available colors: W(White), B(Blue), P(Purple), Y(Yellow), O(Orange)');
+    console.log('Lite-Brite CLI - Use arrow keys to move, Enter to place peg, "q" to quit');
   
     grid.forEach((row, y) => {
       let rowStr = '';
@@ -57,7 +58,7 @@ function displayGrid() {
         if (y === cursor.row && x === cursor.col) {
           rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
         } else {
-            if (pegs[y][x] === true) {  // This should work now
+            if (pegs[y][x]) {
                 rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
             } else {
                 rowStr += cell + ' ';
@@ -66,7 +67,7 @@ function displayGrid() {
       });
       console.log(rowStr);
     });
-  }
+}
 
 // Function to initialize or reset the grid with the mountain pattern
 function resetGrid() {
@@ -98,7 +99,13 @@ function moveCursor(direction) {
 
 // Function to place a peg with specified color
 function placePeg() {
-    pegs[cursor.row][cursor.col] = !pegs[cursor.row][cursor.col];
+    log.log(pegs[cursor.row][cursor.col])
+    if (!pegs[cursor.row][cursor.col]) { // If no peg is present
+        pegs[cursor.row][cursor.col] = true; // Mark peg as placed
+    } else { // If peg is present, remove it
+        pegs[cursor.row][cursor.col] = false; // Mark peg as removed
+    }
+    log.log(pegs[cursor.row][cursor.col])
     displayGrid();
 }
 
@@ -109,6 +116,7 @@ process.stdin.resume();
 
 // Handle keypress events
 process.stdin.on('keypress', (ch, key) => {
+    log.log(JSON.stringify(key, null, 4));
   if (!key) return;
 
   if (key.name === 'q') {
@@ -122,13 +130,10 @@ process.stdin.on('keypress', (ch, key) => {
   else if (key.name === 'down') moveCursor('down');
   else if (key.name === 'left') moveCursor('left');
   else if (key.name === 'right') moveCursor('right');
-  else if (key.name === 'enter') placePeg();
+  else if (key.name === 'return') placePeg();
 });
 
 // Start the game
 console.log('Welcome to Lite-Brite CLI!');
 resetGrid();
 displayGrid();
-
-
-
