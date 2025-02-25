@@ -72,27 +72,32 @@ let cursor = { row: 0, col: 0 };
 
 // Function to display the grid with cursor
 function displayGrid() {
-    console.clear();
-    console.log('Lite-Brite CLI - Use arrow keys to move, Enter to place peg, "q" to quit\n');
+  console.clear();
+  console.log('Lite-Brite CLI - Use arrow keys to move, Enter to place peg, "q" to quit\n');
 
-    grid.forEach((row, y) => {
-      let rowStr = '';
+  // Get terminal width
+  const terminalWidth = process.stdout.columns || 80; // Default to 80 if width can't be determined
+  const maxGridWidth = 45; // Maximum width of the grid (including spaces)
+  const padding = Math.max(0, Math.floor((terminalWidth - maxGridWidth * 2) / 2)); // *2 for spaces between characters
+
+  grid.forEach((row, y) => {
+      let rowStr = ' '.repeat(padding); // Add padding to center the grid
       // Add slight offset for even-indexed rows (44 holes) to suggest honeycomb
       if (y % 2 === 1) rowStr += ' ';
 
       row.forEach((cell, x) => {
-        if (y === cursor.row && x === cursor.col) {
-          rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
-        } else {
-          if (pegs[y][x]) {
-            rowStr += COLORS[cell] + '●' + colors.DARK_GREY + ' ';
+          if (y === cursor.row && x === cursor.col) {
+              rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
           } else {
-            rowStr += colors.DARK_GREY + cell + colors.RESET + ' ';
+              if (pegs[y][x]) {
+                  rowStr += COLORS[cell] + '●' + colors.DARK_GREY + ' ';
+              } else {
+                  rowStr += colors.DARK_GREY + cell + colors.RESET + ' ';
+              }
           }
-        }
       });
       console.log(rowStr + colors.RESET);
-    });
+  });
 }
 
 // Function to initialize or reset the grid with the mountain pattern
