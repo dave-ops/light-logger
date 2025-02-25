@@ -1,10 +1,10 @@
 const readline = require('readline');
 const keypress = require('keypress');
-const colors = require('./constants/colors')
+const colors = require('./constants/colors'); // Assuming this file exists
 const Logger = require('./plugins/fileLogger');
 const log = new Logger();
 
-log.log('be3gin')
+log.log('begin');
 
 // Define colors for Lite-Brite
 const COLORS = {
@@ -17,31 +17,54 @@ const COLORS = {
     V: colors.DARK_PURPLE,
 };
 
-// Define the grid dimensions
-const GRID_HEIGHT = 15;
-const GRID_WIDTH = process.stdout.columns;
+// Define the grid dimensions for 1967 Lite-Brite
+const GRID_HEIGHT = 39; // 39 rows as per 1967 design
 
-// Initialize a blank grid with 'G' (grey) for unlit spots
-let grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill('G'));
-let pegs = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(false));
+// Initialize grid and pegs with alternating row lengths (45, 44, 45, ...)
+let grid = Array(GRID_HEIGHT).fill().map((_, i) => Array(i % 2 === 0 ? 45 : 44).fill('G'));
+let pegs = Array(GRID_HEIGHT).fill().map((_, i) => Array(i % 2 === 0 ? 45 : 44).fill(false));
 
-// Define the mountain pattern
+// Define a modified mountain pattern for the new dimensions (trimmed to 44/45 width)
 const mountainPattern = [
-  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',
-  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',
-  'YYYYYYYYYOYYYYYYYYYYYYYYYYYYYY',
-  'YYYYYYYYOYOYYYYYYYYYYYYYYYYYYY',
-  'YYYYYYYYOYOYYYYYYYYYYYYYYYYYYY',
-  'YYYYYYYYOYYYYYYYYYYYYYYYYYYYYY',
-  'WWWWWWWWWWWWWWWWWWWWWPPPPPPPPP',
-  'WWWWWWWWWWWWWWWWWWWWWPPPPPPPPP',
-  'WWWWWWWWWWWWWWWWWWWWWPPPPPPPPP',
-  'VVVVVVVVVVVVVVVVVVVBBBBBBBBBB',
-  'VVVVVVVVVVVVVVVVVVVBBBBBBBBBB',
-  'VVVVVVVVVVVVVVVVVVVBBBBBBBBBB',
-  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'
+  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY', // 45
+  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',  // 44
+  'YYYYYYYYYYYYYYYYYYYYYYYYYOYYYYYYYYYYYYYYYYYYY', // 45
+  'YYYYYYYYYYYYYYYYYYYYYYYYOYOYYYYYYYYYYYYYYYYY',  // 44
+  'YYYYYYYYYYYYYYYYYYYYYYYYOYOYYYYYYYYYYYYYYYYY',  // 45
+  'YYYYYYYYYYYYYYYYYYYYYYYYOYYYYYYYYYYYYYYYYYYY',  // 44
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW', // 45
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW',  // 44
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW', // 45
+  'VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV', // 45 (expanding to 39 rows)
+  'VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV',  // 44
+  'VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',  // 44
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB', // 45
+  'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'   // 44 (39th row)
 ];
 
 // Cursor position
@@ -54,25 +77,28 @@ function displayGrid() {
 
     grid.forEach((row, y) => {
       let rowStr = '';
+      // Add slight offset for even-indexed rows (44 holes) to suggest honeycomb
+      if (y % 2 === 1) rowStr += ' ';
+
       row.forEach((cell, x) => {
         if (y === cursor.row && x === cursor.col) {
           rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
         } else {
-            if (pegs[y][x]) {
-                rowStr += COLORS[cell] + '●' + colors.DARK_GREY + ' ';
-            } else {
-                rowStr += cell + ' ';
-            }
+          if (pegs[y][x]) {
+            rowStr += COLORS[cell] + '●' + colors.DARK_GREY + ' ';
+          } else {
+            rowStr += colors.DARK_GREY + cell + colors.RESET + ' ';
+          }
         }
       });
-      console.log(rowStr);
+      console.log(rowStr + colors.RESET);
     });
 }
 
 // Function to initialize or reset the grid with the mountain pattern
 function resetGrid() {
   for (let i = 0; i < GRID_HEIGHT; i++) {
-    for (let j = 0; j < GRID_WIDTH; j++) {
+    for (let j = 0; j < grid[i].length; j++) {
       grid[i][j] = mountainPattern[i][j] || 'G';
     }
   }
@@ -91,7 +117,7 @@ function moveCursor(direction) {
       cursor.col = Math.max(0, cursor.col - 1);
       break;
     case 'right':
-      cursor.col = Math.min(GRID_WIDTH - 1, cursor.col + 1);
+      cursor.col = Math.min(grid[cursor.row].length - 1, cursor.col + 1);
       break;
   }
   displayGrid();
@@ -99,17 +125,17 @@ function moveCursor(direction) {
 
 // Function to place a peg with specified color
 function placePeg() {
-    log.log(pegs[cursor.row][cursor.col])
-    if (!pegs[cursor.row][cursor.col]) { // If no peg is present
-        pegs[cursor.row][cursor.col] = true; // Mark peg as placed
-    } else { // If peg is present, remove it
-        pegs[cursor.row][cursor.col] = false; // Mark peg as removed
-    }
-    log.log(pegs[cursor.row][cursor.col])
-    displayGrid();
+  log.log(pegs[cursor.row][cursor.col]);
+  if (!pegs[cursor.row][cursor.col]) { // If no peg is present
+    pegs[cursor.row][cursor.col] = true; // Mark peg as placed
+  } else { // If peg is present, remove it
+    pegs[cursor.row][cursor.col] = false; // Mark peg as removed
+  }
+  log.log(pegs[cursor.row][cursor.col]);
+  displayGrid();
 }
 
-// Set up keypress to capture arrow keys and color letters
+// Set up keypress to capture arrow keys and inputs
 keypress(process.stdin);
 process.stdin.setRawMode(true);
 process.stdin.resume();
@@ -120,7 +146,7 @@ process.stdin.on('keypress', (ch, key) => {
   if (!key) return;
 
   if (key.name === 'q') {
-    pegs = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(true));
+    pegs = Array(GRID_HEIGHT).fill().map((_, i) => Array(i % 2 === 0 ? 45 : 44).fill(true));
     displayGrid();
     console.log(`\n${colors.RESET}Thanks for playing Lite-Brite CLI!`);
     process.stdin.setRawMode(false);
