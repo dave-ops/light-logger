@@ -50,8 +50,8 @@ let cursor = { row: 0, col: 0 };
 // Function to display the grid with cursor
 function displayGrid() {
     console.clear();
-    console.log('Lite-Brite CLI - Use arrow keys to move, Enter to place peg, "q" to quit');
-  
+    console.log('Lite-Brite CLI - Use arrow keys to move, Enter to place peg, "q" to quit\n');
+
     grid.forEach((row, y) => {
       let rowStr = '';
       row.forEach((cell, x) => {
@@ -59,7 +59,7 @@ function displayGrid() {
           rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
         } else {
             if (pegs[y][x]) {
-                rowStr += COLORS[cell] + cell + colors.DARK_GREY + ' ';
+                rowStr += COLORS[cell] + '●' + colors.DARK_GREY + ' ';
             } else {
                 rowStr += cell + ' ';
             }
@@ -120,6 +120,8 @@ process.stdin.on('keypress', (ch, key) => {
   if (!key) return;
 
   if (key.name === 'q') {
+    pegs = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(true));
+    displayGrid();
     console.log(`\n${colors.RESET}Thanks for playing Lite-Brite CLI!`);
     process.stdin.setRawMode(false);
     process.stdin.pause();
