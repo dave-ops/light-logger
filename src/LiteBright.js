@@ -116,11 +116,11 @@ process.stdin.resume();
 
 // Handle keypress events
 process.stdin.on('keypress', (ch, key) => {
-    log.log(JSON.stringify(key, null, 4));
+  log.log(JSON.stringify(key, null, 4));
   if (!key) return;
 
   if (key.name === 'q') {
-    console.log('\nThanks for playing Lite-Brite CLI!');
+    console.log(`\n${colors.RESET}Thanks for playing Lite-Brite CLI!`);
     process.stdin.setRawMode(false);
     process.stdin.pause();
     process.exit();
