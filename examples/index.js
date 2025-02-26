@@ -11,4 +11,4 @@ const json = { id: 1, name: 'jepedo', child: { id: 2, name: 'pinoccio' } };
 log.debug(json);
 
 const error = new Error("ERROR!")
-log.error(error);
+log.error('womp womp', error);

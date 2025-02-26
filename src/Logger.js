@@ -6,6 +6,7 @@ const InfoLevel = require('./core/levels/InfoLevel');
 const WarnLevel = require('./core/levels/WarnLevel');
 const ErrorLevel = require('./core/levels/ErrorLevel');
 const CriticalLevel = require('./core/levels/CriticalLevel');
+const Colors = require('./constants/colors');
 
 class Logger {
     constructor(env = process.env.NODE_ENV || 'development') {
@@ -61,9 +62,13 @@ class Logger {
         }
     }
 
-    log(logLevel, message) {
+    log(logLevel, message, formatter) {
         if (logLevel.shouldLog(this._minimumLevel)) {
-            console.log(logLevel.formatMessage(message));
+            if (formatter) {
+                console.log(formatter(message));
+            } else {
+                console.log(logLevel.formatMessage(message));
+            }
         }
     }
 
@@ -84,14 +89,26 @@ class Logger {
         this.log(this.levels.warn, message);
     }
 
-    error(message) {
-        this.log(this.levels.error, new Date().toISOString());
-        this.log(this.levels.error, message);
+    error(message, err) {
+        const formatter = (msg) => `${Colors.WHITE}[${Colors.RED}ERR${Colors.WHITE}] ` +
+                                   `${Colors.DARK_RED}${msg}${Colors.RESET}`;
+        if (err && err.name) {
+            this.log(this.levels.error, err.name, formatter);
+        }
+        this.log(this.levels.error, new Date().toISOString(), formatter);
+        this.log(this.levels.error, message, formatter);
+        this.log(this.levels.error, err);
     }
 
-    critical(message) {
-        this.log(this.levels.critical, new Date().toISOString());
-        this.log(this.levels.critical, message);
+    critical(message, err) {
+        const formatter = (msg) => `${Colors.WHITE}[${Colors.MAGENTA}CRT${Colors.WHITE}] ` +
+                                   `${Colors.DARK_PURPLE}${msg}${Colors.RESET}`;
+        if (err && err.name) {
+            this.log(this.levels.error, err.name, formatter);
+        }
+        this.log(this.levels.error, new Date().toISOString(), formatter);
+        this.log(this.levels.critical, message, formatter);
+        this.log(this.levels.critical, err);
     }
 }
 
