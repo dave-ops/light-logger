@@ -5,7 +5,7 @@ log.debug("Debug message");
 log.info("Info message");
 log.warn("Warning message");
 log.error("Error message");
-log.critical("System failure detected");
+log.critical("System failure detected", new Error("womp womp"));
 log.raw("raw message");
 log.raw("");
 
