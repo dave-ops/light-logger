@@ -6,9 +6,8 @@ log.info("Info message");
 log.warn("Warning message");
 log.error("Error message");
 log.critical("System failure detected");
+log.raw("raw message");
+log.raw("");
 
 const json = { id: 1, name: 'jepedo', child: { id: 2, name: 'pinoccio' } };
 log.debug(json);
-
-const error = new Error("ERROR!")
-log.error('womp womp', error);

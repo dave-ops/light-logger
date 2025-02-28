@@ -72,6 +72,10 @@ class Logger {
         }
     }
 
+    raw(message) {
+        console.log(message);
+    }
+
     timestamp() {
         const ts = new Date().toISOString();
         this.log(this.levels.debug, ts);
@@ -94,11 +98,12 @@ class Logger {
                                    `${Colors.DARK_RED}${msg}${Colors.RESET}`;
         if (err && err.name) {
             this.log(this.levels.error, err.name, formatter);
+        } else {
+            this.log(this.levels.error, new Date().toISOString(), formatter);
+            this.log(this.levels.error, message, formatter);    
         }
-        this.log(this.levels.error, new Date().toISOString(), formatter);
-        this.log(this.levels.error, message, formatter);
-        this.log(this.levels.error, err);
     }
+
 
     critical(message, err) {
         const formatter = (msg) => `${Colors.WHITE}[${Colors.MAGENTA}CRT${Colors.WHITE}] ` +
